@@ -1,11 +1,12 @@
 import csvtojson from 'csvtojson'
 import 'dotenv/config'
 
-import { GpsCoordinatesModel } from './models/gpsCoordinatesModel'
-import { TrackingsModel } from './models/trackingModel'
-import { connectWithRetry } from './connect'
+import {GpsCoordinatesModel} from './models/gpsCoordinatesModel'
+import {TrackingsModel} from './models/trackingModel'
+import {connectWithRetry} from './connect'
 import moment from 'moment'
-import { insertNewCoordinate } from './queries/coordinates'
+import {insertNewCoordinate} from './queries/coordinates'
+import {getForecast} from "../src/api/weather";
 
 const gpsCsvLocation = `${process.cwd()}/db/csv/gps.csv`
 const trackingsCsvLocation = `${process.cwd()}/db/csv/trackings.csv`
@@ -28,7 +29,7 @@ const trackingsCsvLocation = `${process.cwd()}/db/csv/trackings.csv`
                 headers: ['tracking_number', 'location_id', 'pickup_date'],
             }).fromFile(trackingsCsvLocation)
         ).map((eachTrackingObject) => {
-            const { tracking_number, location_id, pickup_date } =
+            const {tracking_number, location_id, pickup_date} =
                 eachTrackingObject
             return {
                 tracking_number,
@@ -38,8 +39,9 @@ const trackingsCsvLocation = `${process.cwd()}/db/csv/trackings.csv`
         })
 
         for (const eachCoordinate of gpsCoordinates) {
-            const { latitude, longitude, location_id } = eachCoordinate
-            await insertNewCoordinate({ latitude, longitude, location_id })
+            const {latitude, longitude, location_id} = eachCoordinate
+            const forecast = await getForecast({latitude, longitude})
+            await insertNewCoordinate({forecast, latitude, longitude, location_id})
         }
 
         await TrackingsModel.insertMany(trackings)
