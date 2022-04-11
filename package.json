@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node index.ts",
+    "start": "./node_modules/.bin/ts-node index.ts",
     "seed": "ts-node db/seed.ts",
     "test:unit": "",
     "test:integration": "",
@@ -21,6 +21,8 @@
     "moment": "^2.29.2",
     "mongoose": "^6.2.10",
     "swagger-ui-express": "^4.3.0",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
