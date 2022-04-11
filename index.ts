@@ -35,8 +35,8 @@ app.get('/weather', async (req, res) => {
                 )
         }
         const forecast = await getCoordinateWeatherDetails({
-            longitude: lon,
-            latitude: lat,
+            longitude: Number(lon).toFixed(2),
+            latitude: Number(lat).toFixed(2),
         })
         return res.status(200).send(forecast)
     } catch (e) {
