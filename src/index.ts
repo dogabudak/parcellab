@@ -1,7 +1,7 @@
 import {
     getCoordinateForecastFromDatabase,
     insertNewCoordinate,
-} from "../db/queries/coordinates";
+} from '../db/queries/coordinates'
 
 /**
  * After checking the api, i couldn't see one end point which provided both information which are needed (max, min, median, average temperatures), therefore 2 separate calls were needed
@@ -10,10 +10,12 @@ import {
  * @param longitude
  */
 
-export const getCoordinateWeatherDetails = async ({latitude, longitude}) => {
-    let locationEntry = (await getCoordinateForecastFromDatabase({latitude, longitude})).pop()
+export const getCoordinateWeatherDetails = async ({ latitude, longitude }) => {
+    let locationEntry = (
+        await getCoordinateForecastFromDatabase({ latitude, longitude })
+    )
     if (!locationEntry) {
-        locationEntry = await insertNewCoordinate({latitude, longitude})
+        locationEntry = await insertNewCoordinate({ latitude, longitude })
     }
 
     return locationEntry

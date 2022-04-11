@@ -2,45 +2,30 @@ import { model, Schema } from 'mongoose'
 import { GpsCoordinate } from '../../types/gpsCoordinates'
 
 /**
- * To use more accurate gep spatial information, I used mongodb's geo spatial point schema
+ * To increase the performance of the query I would normally use geospatial data and 2dsphere indexes but to keep the challenge short, i will just put indexes to coordinates
  */
-const pointSchema = new Schema(
+
+export const gpsCoordinatesSchema = new Schema<GpsCoordinate>(
     {
-        type: {
-            type: String,
-            enum: ['Point'],
-            required: true,
+        location_id: { type: String, unique: true },
+        location: {
+            longitude: { type: String, index: true },
+            latitude: { type: String, index: true },
         },
-        coordinates: {
-            type: [Number],
-            required: true,
-        },
+        precipitation: String,
+        weather: [
+            {
+                timestamp: String,
+                precipitation: String,
+                minimumTemprature: Number,
+                maximumTemprature: Number,
+                humidity: Number,
+            },
+        ],
+        updatedAt: Date,
     },
-    { _id: false }
+    { timestamps: true }
 )
-
-/**
- * To increase the performance of the query I used 2dsphere indexes for the geospatial data
- */
-
-export const gpsCoordinatesSchema = new Schema<GpsCoordinate>({
-    location_id: { type: String, unique: true },
-    location: {
-        type: pointSchema,
-        index: '2dsphere',
-    },
-    precipitation: String,
-    weather: [
-        {
-            timestamp: String,
-            precipitation: String,
-            minimumTemprature: Number,
-            maximumTemprature: Number,
-            humidity: Number,
-        },
-    ],
-    updatedAt: Date,
-},{timestamps: true})
 
 export const GpsCoordinatesModel = model<GpsCoordinate>(
     'GpsCoordinates',

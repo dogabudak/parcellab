@@ -1,8 +1,8 @@
 export interface GpsCoordinate {
     location_id: string
     location: {
-        type: string
-        coordinate: number[]
+        longitude: string
+        latitude: string
     }
     precipitation?: string
     weather?: {
