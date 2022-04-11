@@ -1,10 +1,7 @@
 
 ## Pipeline status:
 
-[![lib-api](https://github.com/dogabudak/parcellab/blob/main/.github/workflows/workflow.yaml/badge.svg)](https://github.com/dogabudak/parcellab/blob/main/.github/workflows/workflow.yaml)
-
-
-
+[![api](https://github.com/dogabudak/parcellab/actions/workflows/workflow.yaml/badge.svg)](https://github.com/dogabudak/parcellab/actions/workflows/workflow.yaml)
 
 
 refresh mechanism =>
