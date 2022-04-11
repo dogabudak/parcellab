@@ -1,23 +1,8 @@
-1- add a section to a Readme
-2- Create unit tests
-3- place coments for the code
-4- create a github ci/cd
-5- husky
-6- cron is not working
-7- swagger'i duzgun bir yere koy
-8- it should disconnect after seed
-9- // TODO first ones never get cought
-10- // TODO gps coordinate should be saves as coordinate
-11- date must be with in 5 days
-12- // TODO change location at weather aggregation
-13- swagger'i bitir
-14- place more eror codes (not found etc.) use HTTP ERRORCODES package
-15- use geo spatial locations for mongodb
-16- Readme, why i did simple cron job rather than event queue
-17- make cron a child process
-18 -weather forecast should be with date and time
-19- TODO on init fetch the weather
-20-add readme conventional commit
+
+## Pipeline status:
+
+[![lib-api](https://github.com/dogabudak/parcellab/blob/main/.github/workflows/workflow.yaml/badge.svg)](https://github.com/dogabudak/parcellab/blob/main/.github/workflows/workflow.yaml)
+
 
 
 
