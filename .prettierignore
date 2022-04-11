@@ -1,0 +1,9 @@
+.eslintignore
+.gitignore
+.prettierignore
+.prettierrc
+Dockerfile
+LICENSE
+package.json
+package-lock.json
+yarn.lock

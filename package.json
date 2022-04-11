@@ -1,0 +1,30 @@
+{
+  "name": "parcel_lab_challenge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "seed": "ts-node db/seed.ts",
+    "test:unit": "",
+    "test:integration": "",
+    "prettier": "prettier -c .",
+    "prettier:fix": "yarn prettier --write"
+  },
+  "dependencies": {
+    "axios": "^0.26.1",
+    "cors": "^2.8.5",
+    "cron": "^1.8.2",
+    "csvtojson": "^2.0.10",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "moment": "^2.29.2",
+    "mongoose": "^6.2.10",
+    "swagger-ui-express": "^4.3.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "prettier": "^2.6.2"
+  }
+}
