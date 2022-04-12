@@ -9,10 +9,16 @@ services:
             - ~/apps/mongo:/data/db
     parcellab:
         image: parcellab:1.0
-        platform: linux/x86_64
         build:
             context: .
             dockerfile: ./Dockerfile
+        restart: unless-stopped
         ports:
             - 7001:7001
+        healthcheck:
+            test: curl --fail http://localhost || exit 1
+            interval: 60s
+            retries: 5
+            start_period: 20s
+            timeout: 10s
         container_name: parcellab

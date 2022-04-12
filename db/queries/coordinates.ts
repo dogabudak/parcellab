@@ -19,14 +19,16 @@ export const getCoordinateForecastFromDatabase = async ({
  * @param forecast
  * @param locationId
  */
-export const updatePredictionToForecast = async ({ weather, locationId }) => {
+export const updatePredictionToForecast = async ({
+    weather,
+    locationId,
+    date,
+}) => {
     return GpsCoordinatesModel.updateOne(
-        { location_id: locationId },
+        { location_id: locationId, 'weather.timestamp': date },
         {
-            $push: {
-                weather: {
-                    weather,
-                },
+            $set: {
+                'participants.$': weather,
             },
         }
     )

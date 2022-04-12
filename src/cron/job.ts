@@ -3,6 +3,7 @@ import moment from 'moment'
 
 import { GpsCoordinatesModel } from '../../db/models/gpsCoordinatesModel'
 import { updatePredictionToForecast } from '../../db/queries/coordinates'
+import { getForecast } from '../api/weather'
 
 const everyFiveMinutesCron = '*/5 * * * *'
 
@@ -13,7 +14,7 @@ const everyFiveMinutesCron = '*/5 * * * *'
 const refetchOldEntries = async () => {
     const updatedAtDate = moment().subtract(5, 'minutes').toDate()
     const oldEntries = await GpsCoordinatesModel.find({
-        $or: [{ updatedAt: { $lte: updatedAtDate } }, { updatedAt: null }],
+        // $or: [{ updatedAt: { $lte: updatedAtDate } }, { updatedAt: null }],
     })
         .batchSize(10)
         .cursor()
@@ -21,12 +22,23 @@ const refetchOldEntries = async () => {
         const {
             location_id,
             location: { longitude, latitude },
+            weather,
         } = entry
-
-        await updatePredictionToForecast({
-            locationId: location_id,
-            weather: [],
-        })
+        for (const eachSavedWeather of weather) {
+            const momentTimestamp = moment(eachSavedWeather.timestamp)
+            if (momentTimestamp.isAfter(moment())) {
+                const forecast = await getForecast({
+                    longitude,
+                    latitude,
+                    date: momentTimestamp.toISOString(),
+                })
+                await updatePredictionToForecast({
+                    locationId: location_id,
+                    weather: forecast,
+                    date: momentTimestamp.toISOString(),
+                })
+            }
+        }
     })
 }
 

@@ -25,7 +25,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.get('/track/:trackingNumber', async (req, res) => {
     try {
         const { trackingNumber } = req.params
-        const weatherDetails = await getLocationIdWeatherDetails({ trackingNumber })
+        const weatherDetails = await getLocationIdWeatherDetails({
+            trackingNumber,
+        })
+        if (!weatherDetails) {
+            return res.status(StatusCodes.NO_CONTENT).send({})
+        }
         return res.status(StatusCodes.OK).send(weatherDetails)
     } catch (e) {
         console.error(`Unable to process the request: ${e}`)
@@ -73,4 +78,7 @@ app.get('/weather', async (req, res) => {
     }
 })
 
+app.get('/health', (req, res) => {
+    res.status(200).send('Ok')
+})
 export default app

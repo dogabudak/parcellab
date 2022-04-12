@@ -2,7 +2,7 @@ import {
     getCoordinateForecastFromDatabase,
     insertNewCoordinate,
 } from '../db/queries/coordinates'
-import { getWeather } from './api/weather'
+import { getForecast } from './api/weather'
 import { getWeatherFromTrackingNumber } from '../db/queries/tracking'
 import { extractWeatherRecordFromDateTime } from './utils/utils'
 
@@ -25,7 +25,7 @@ export const getCoordinateWeatherDetails = async ({
         longitude,
     })
     if (!locationEntry) {
-        const forecast = await getWeather({ latitude, longitude, date })
+        const forecast = await getForecast({ latitude, longitude, date })
         return insertNewCoordinate({
             date,
             forecast,
@@ -45,13 +45,25 @@ export const getLocationIdWeatherDetails = async ({ trackingNumber }) => {
     const locationWithWeatherDetails = await getWeatherFromTrackingNumber({
         trackingNumber,
     })
-    const {weatherDetails: {location:{latitude, longitude}}, pickup_date : date}= locationWithWeatherDetails
-    const weatherDetailsFromDb = extractWeatherRecordFromDateTime(locationWithWeatherDetails)
-    if(weatherDetailsFromDb){
-       return weatherDetailsFromDb
+    if (!locationWithWeatherDetails) {
+        return null
+    }
+    const {
+        location_id,
+        weatherDetails: {
+            location: { latitude, longitude },
+        },
+        pickup_date: date,
+    } = locationWithWeatherDetails
+    const weatherDetailsFromDb = extractWeatherRecordFromDateTime(
+        locationWithWeatherDetails
+    )
+    if (weatherDetailsFromDb) {
+        return weatherDetailsFromDb
     } else {
-        const forecast = await getWeather({ latitude, longitude, date })
-         await insertNewCoordinate({
+        const forecast = await getForecast({ latitude, longitude, date })
+        await insertNewCoordinate({
+            location_id,
             date,
             forecast,
             latitude,

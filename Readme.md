@@ -13,10 +13,18 @@ fetch the ids from this event queue every 5 minutes periodically for the sake of
 
 There are 2 endpoints in this application, maximum 5 days in the future can be called with 3 hours interval
 
-Dont forget to writew hich type the data is (celcius ? percipation etc ? ? )
+Dont forget to write which type the data is (celcius ? percipation etc ? ? )
 
 Used another weather app since it was easier to use (this is )
 
 Picked typescript as the language because it is like node but with types, i did not go with types extensively https://github.com/dogabudak/parcellab
 
 Testing is not so tidy, since i did not speand so much time, mock and stubs and spies are everywhere
+
+Not taking care of timezone
+
+conventional commit
+
+why did i use a different api
+
+Explain 2 end points and the logic behind the cron job

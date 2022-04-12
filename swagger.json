@@ -1,52 +1,75 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "Blah",
-        "description": "",
+        "title": "ParcelLab Documentation",
+        "description": "This is basic api docs from doga budaks parcellab challenge",
         "version": "1.0"
     },
     "produces": ["application/json"],
     "paths": {
-        "/test": {
-            "post": {
-                "x-swagger-router-controller": "home",
-                "operationId": "index",
-                "tags": ["/test"],
-                "description": "[Login 123](https://www.google.com)",
+        "/weather": {
+            "get": {
+                "tags": ["Gets Weather Details From coordinates and date time"],
                 "parameters": [
                     {
-                        "name": "test",
-                        "in": "formData",
-                        "type": "array",
-                        "collectionFormat": "multi",
-                        "items": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "profileId",
-                        "in": "formData",
+                        "name": "date",
+                        "in": "query",
                         "required": true,
+                        "description": "Example: 2020-04-24T12:00",
                         "type": "string"
                     },
                     {
-                        "name": "file",
-                        "in": "formData",
-                        "type": "file",
-                        "required": "true"
+                        "name": "lon",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "description": "Example longitude: 11.55"
+                    },
+                    {
+                        "name": "lat",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "Example latitude: 48.14"
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad request. Latitude,longitude and date should be valid"
+                    },
+                    "500": {
+                        "description": "Internal Server Error. There was an unexpected error"
+                    }
+                }
             }
         },
-        "/bar": {
+        "/track/{tracking_id}": {
             "get": {
-                "x-swagger-router-controller": "bar",
-                "operationId": "impossible",
-                "tags": ["/test"],
-                "description": "",
-                "parameters": [],
-                "responses": {}
+                "x-swagger-router-controller": "track",
+                "description": "Returns the weather conditions on that given location ",
+                "parameters": [
+                    {
+                        "name": "tracking id",
+                        "in": "path",
+                        "required": true,
+                        "description": "d991261c-1ad6-11ec-9216-002b67ce00far",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "Request was successful but tracking id does not exist in db"
+                    },
+                    "500": {
+                        "description": "Internal Server Error. There was an unexpected error"
+                    }
+                }
             }
         }
     }
