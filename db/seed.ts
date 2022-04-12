@@ -1,12 +1,11 @@
 import csvtojson from 'csvtojson'
+import moment from 'moment'
+
 import 'dotenv/config'
 
-import {GpsCoordinatesModel} from './models/gpsCoordinatesModel'
-import {TrackingsModel} from './models/trackingModel'
-import {connectWithRetry} from './connect'
-import moment from 'moment'
-import {insertNewCoordinate} from './queries/coordinates'
-import {getForecast} from "../src/api/weather";
+import { GpsCoordinatesModel } from './models/gpsCoordinatesModel'
+import { TrackingsModel } from './models/trackingModel'
+import { connectWithRetry } from './connect'
 
 const gpsCsvLocation = `${process.cwd()}/db/csv/gps.csv`
 const trackingsCsvLocation = `${process.cwd()}/db/csv/trackings.csv`
@@ -18,10 +17,21 @@ const trackingsCsvLocation = `${process.cwd()}/db/csv/trackings.csv`
         await GpsCoordinatesModel.deleteMany()
         await TrackingsModel.deleteMany()
 
-        const gpsCoordinates = await csvtojson({
-            noheader: true,
-            headers: ['location_id', 'latitude', 'longitude'],
-        }).fromFile(gpsCsvLocation)
+        const gpsCoordinates = (
+            await csvtojson({
+                noheader: true,
+                headers: ['location_id', 'latitude', 'longitude'],
+            }).fromFile(gpsCsvLocation)
+        ).map((eachCoordinate) => {
+            const { location_id, latitude, longitude } = eachCoordinate
+            return {
+                location_id,
+                location: {
+                    latitude: Number(latitude).toFixed(2),
+                    longitude: Number(longitude).toFixed(2),
+                },
+            }
+        })
 
         const trackings = (
             await csvtojson({
@@ -29,7 +39,7 @@ const trackingsCsvLocation = `${process.cwd()}/db/csv/trackings.csv`
                 headers: ['tracking_number', 'location_id', 'pickup_date'],
             }).fromFile(trackingsCsvLocation)
         ).map((eachTrackingObject) => {
-            const {tracking_number, location_id, pickup_date} =
+            const { tracking_number, location_id, pickup_date } =
                 eachTrackingObject
             return {
                 tracking_number,
@@ -37,13 +47,7 @@ const trackingsCsvLocation = `${process.cwd()}/db/csv/trackings.csv`
                 pickup_date: moment(pickup_date, 'YYYYMMDDHHmm.ss').format(),
             }
         })
-
-        for (const eachCoordinate of gpsCoordinates) {
-            const {latitude, longitude, location_id} = eachCoordinate
-            const forecast = await getForecast({latitude, longitude})
-            await insertNewCoordinate({forecast, latitude, longitude, location_id})
-        }
-
+        await GpsCoordinatesModel.insertMany(gpsCoordinates)
         await TrackingsModel.insertMany(trackings)
         process.exit(0)
     } catch (e) {

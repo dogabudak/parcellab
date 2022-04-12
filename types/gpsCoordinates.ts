@@ -8,8 +8,7 @@ export interface GpsCoordinate {
     weather?: {
         timestamp: string
         precipitation: string
-        minimumTemprature: number
-        maximumTemprature: number
+        temperature: number
         humidity: number
     }[]
     humidity?: string

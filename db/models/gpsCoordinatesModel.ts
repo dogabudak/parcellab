@@ -17,8 +17,7 @@ export const gpsCoordinatesSchema = new Schema<GpsCoordinate>(
             {
                 timestamp: String,
                 precipitation: String,
-                minimumTemprature: Number,
-                maximumTemprature: Number,
+                temperature: Number,
                 humidity: Number,
             },
         ],

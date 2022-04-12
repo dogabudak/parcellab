@@ -1,13 +1,15 @@
 import { GpsCoordinatesModel } from '../models/gpsCoordinatesModel'
 import { v4 as uuidv4 } from 'uuid'
 
-
 export const getCoordinateForecastFromDatabase = async ({
+    date,
     latitude,
     longitude,
 }) => {
     return GpsCoordinatesModel.findOne({
-        location: { latitude, longitude },
+        'location.latitude': latitude,
+        'location.longitude': longitude,
+        weather: { $elemMatch: { timestamp: date } },
     })
 }
 
@@ -17,11 +19,15 @@ export const getCoordinateForecastFromDatabase = async ({
  * @param forecast
  * @param locationId
  */
-export const updatePredictionToForecast = async ({ forecast, locationId }) => {
+export const updatePredictionToForecast = async ({ weather, locationId }) => {
     return GpsCoordinatesModel.updateOne(
         { location_id: locationId },
         {
-            weather: forecast,
+            $push: {
+                weather: {
+                    weather,
+                },
+            },
         }
     )
 }
@@ -29,6 +35,8 @@ export const updatePredictionToForecast = async ({ forecast, locationId }) => {
 /**
  * Inserts a new entry to the db, if a different coordinate has been given
  * location id is created with an uuid rather than a simple number, to keep it simpler
+ * following method can be also simplified with a better query but i did not want to spend much time on it therefore it is much simpler
+ * but less efficient method
  */
 
 export const insertNewCoordinate = async ({
@@ -36,11 +44,22 @@ export const insertNewCoordinate = async ({
     forecast,
     latitude,
     longitude,
+    date,
 }) => {
-
-    return GpsCoordinatesModel.create({
+    const selector = {
         location_id,
-        weather: forecast,
-        location: { longitude: Number(longitude).toFixed(2), latitude: Number(latitude).toFixed(2) },
-    })
+        location: {
+            longitude: Number(longitude).toFixed(2),
+            latitude: Number(latitude).toFixed(2),
+        },
+    }
+    forecast.timestamp = date
+    await GpsCoordinatesModel.findOneAndUpdate(
+        selector,
+        { $push: { weather: forecast } },
+        {
+            upsert: true,
+            rawResult: true,
+        }
+    )
 }

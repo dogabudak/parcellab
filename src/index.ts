@@ -2,23 +2,61 @@ import {
     getCoordinateForecastFromDatabase,
     insertNewCoordinate,
 } from '../db/queries/coordinates'
-import {getForecast} from "./api/weather";
+import { getWeather } from './api/weather'
+import { getWeatherFromTrackingNumber } from '../db/queries/tracking'
+import { extractWeatherRecordFromDateTime } from './utils/utils'
 
 /**
  * After checking the api, i couldn't see one end point which provided both information which are needed (max, min, median, average temperatures), therefore 2 separate calls were needed
  * but since the statistical data (median/average temperatures) is only available for paid customers, I skipped that part
+ * @param date
  * @param latitude
  * @param longitude
  */
 
-export const getCoordinateWeatherDetails = async ({ latitude, longitude }) => {
-    let locationEntry = (
-        await getCoordinateForecastFromDatabase({ latitude, longitude })
-    )
+export const getCoordinateWeatherDetails = async ({
+    date,
+    latitude,
+    longitude,
+}) => {
+    let locationEntry = await getCoordinateForecastFromDatabase({
+        date,
+        latitude,
+        longitude,
+    })
     if (!locationEntry) {
-        const forecast = await getForecast({latitude, longitude})
-        locationEntry = await insertNewCoordinate({ forecast, latitude, longitude })
+        const forecast = await getWeather({ latitude, longitude, date })
+        return insertNewCoordinate({
+            date,
+            forecast,
+            latitude,
+            longitude,
+        })
     }
-
     return locationEntry
+}
+
+/**
+ * This function returns a joint table from given tracking number. From this function I extract the weather at that certain time
+ * with a basic filter function instead of moving this to the aggregation pipeline, the only reason I do that is, I did not want to spend more time on the query development.
+ * @param trackingNumber
+ */
+export const getLocationIdWeatherDetails = async ({ trackingNumber }) => {
+    const locationWithWeatherDetails = await getWeatherFromTrackingNumber({
+        trackingNumber,
+    })
+    const {weatherDetails: {location:{latitude, longitude}}, pickup_date : date}= locationWithWeatherDetails
+    const weatherDetailsFromDb = extractWeatherRecordFromDateTime(locationWithWeatherDetails)
+    if(weatherDetailsFromDb){
+       return weatherDetailsFromDb
+    } else {
+        const forecast = await getWeather({ latitude, longitude, date })
+         await insertNewCoordinate({
+            date,
+            forecast,
+            latitude,
+            longitude,
+        })
+        return forecast
+    }
 }
