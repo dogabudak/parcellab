@@ -64,6 +64,7 @@ app.get('/weather', async (req, res) => {
                 .status(StatusCodes.BAD_REQUEST)
                 .send('Unable to process the request, This is not a valid date')
         }
+
         const forecast = await getCoordinateWeatherDetails({
             date: queriedDate,
             longitude,

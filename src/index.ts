@@ -1,6 +1,6 @@
 import {
     getCoordinateForecastFromDatabase,
-    insertNewCoordinate,
+    insertNewCoordinate, updatePredictionToForecast,
 } from '../db/queries/coordinates'
 import { getForecast } from './api/weather'
 import { getWeatherFromTrackingNumber } from '../db/queries/tracking'
@@ -19,21 +19,38 @@ export const getCoordinateWeatherDetails = async ({
     latitude,
     longitude,
 }) => {
-    let locationEntry = await getCoordinateForecastFromDatabase({
-        date,
+    let weather
+    const queriredDate = date.toISOString()
+
+    let storedLocation = await getCoordinateForecastFromDatabase({
         latitude,
         longitude,
     })
-    if (!locationEntry) {
-        const forecast = await getForecast({ latitude, longitude, date })
-        return insertNewCoordinate({
-            date,
-            forecast,
+    weather = storedLocation.weather.find(
+        (eachWeather) => eachWeather.timestamp === queriredDate
+    )
+    if(!weather){
+        weather = await getForecast({
+            latitude,
+            longitude,
+            date: queriredDate,
+        })
+    }
+    if (!storedLocation) {
+        await insertNewCoordinate({
+            date: queriredDate,
+            forecast: weather,
             latitude,
             longitude,
         })
+    } else {
+        await updatePredictionToForecast({
+            locationId: storedLocation.location_id,
+            weather,
+            date: queriredDate,
+        })
     }
-    return locationEntry
+    return weather
 }
 
 /**

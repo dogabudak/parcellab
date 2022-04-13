@@ -2,14 +2,12 @@ import { GpsCoordinatesModel } from '../models/gpsCoordinatesModel'
 import { v4 as uuidv4 } from 'uuid'
 
 export const getCoordinateForecastFromDatabase = async ({
-    date,
     latitude,
     longitude,
 }) => {
     return GpsCoordinatesModel.findOne({
         'location.latitude': latitude,
         'location.longitude': longitude,
-        weather: { $elemMatch: { timestamp: date } },
     })
 }
 
@@ -56,6 +54,7 @@ export const insertNewCoordinate = async ({
         },
     }
     forecast.timestamp = date
+    console.log(selector)
     await GpsCoordinatesModel.findOneAndUpdate(
         selector,
         { $push: { weather: forecast } },

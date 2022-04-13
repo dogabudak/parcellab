@@ -9,7 +9,7 @@
     "paths": {
         "/weather": {
             "get": {
-                "tags": ["Gets Weather Details From coordinates and date time"],
+                "tags": ["Gets Weather Details From coordinates and date time, weather details you get is on Celcius"],
                 "parameters": [
                     {
                         "name": "date",
@@ -48,11 +48,10 @@
         },
         "/track/{tracking_id}": {
             "get": {
-                "x-swagger-router-controller": "track",
                 "description": "Returns the weather conditions on that given location ",
                 "parameters": [
                     {
-                        "name": "tracking id",
+                        "name": "tracking_id",
                         "in": "path",
                         "required": true,
                         "description": "d991261c-1ad6-11ec-9216-002b67ce00far",
