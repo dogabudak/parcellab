@@ -29,7 +29,9 @@ app.get('/track/:trackingNumber', async (req, res) => {
             trackingNumber,
         })
         if (!weatherDetails) {
-            return res.status(StatusCodes.NO_CONTENT).send({})
+            return res
+                .status(StatusCodes.NOT_FOUND)
+                .send('Requested Id does not exist')
         }
         return res.status(StatusCodes.OK).send(weatherDetails)
     } catch (e) {

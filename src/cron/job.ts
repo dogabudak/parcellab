@@ -3,7 +3,7 @@ import moment from 'moment'
 
 import { GpsCoordinatesModel } from '../../db/models/gpsCoordinatesModel'
 import { updatePredictionToForecast } from '../../db/queries/coordinates'
-import { getForecast } from '../api/weather'
+import { getForecast } from '../api/forecast'
 
 const everyFiveMinutesCron = '*/5 * * * *'
 

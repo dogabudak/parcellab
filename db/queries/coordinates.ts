@@ -5,10 +5,13 @@ export const getCoordinateForecastFromDatabase = async ({
     latitude,
     longitude,
 }) => {
-    return GpsCoordinatesModel.findOne({
-        'location.latitude': latitude,
-        'location.longitude': longitude,
-    })
+    return GpsCoordinatesModel.findOne(
+        {
+            'location.latitude': latitude,
+            'location.longitude': longitude,
+        },
+        { _id: -1 }
+    )
 }
 
 /**
@@ -54,7 +57,6 @@ export const insertNewCoordinate = async ({
         },
     }
     forecast.timestamp = date
-    console.log(selector)
     await GpsCoordinatesModel.findOneAndUpdate(
         selector,
         { $push: { weather: forecast } },

@@ -9,7 +9,9 @@
     "paths": {
         "/weather": {
             "get": {
-                "tags": ["Gets Weather Details From coordinates and date time, weather details you get is on Celcius"],
+                "tags": [
+                    "Gets Weather Details From coordinates and date time, weather details you get is on Celcius"
+                ],
                 "parameters": [
                     {
                         "name": "date",
@@ -62,8 +64,8 @@
                     "200": {
                         "description": "OK"
                     },
-                    "204": {
-                        "description": "Request was successful but tracking id does not exist in db"
+                    "404": {
+                        "description": "Tracking id does not exist in db"
                     },
                     "500": {
                         "description": "Internal Server Error. There was an unexpected error"

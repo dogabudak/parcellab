@@ -12,9 +12,10 @@ export function gpsFactoryWorker(overrides): GpsCoordinate {
         weather: [
             {
                 timestamp: faker.date.recent(),
-                precipitation: faker.lorem.word(),
+                precipitation: faker.datatype.number(),
                 temperature: faker.datatype.number(),
                 humidity: faker.datatype.number(),
+                ...overrides.weather,
             },
         ],
         createdAt: faker.date.recent(),

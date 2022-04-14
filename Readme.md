@@ -19,18 +19,18 @@ mongodb respectively.
 
 This application follows a monorepo approach. The following sections explains the folder structure:
 
-- `./db/`: Contains everything related to database, queries, seeders, models, csv's etc.
-- `./src/cron`: Contains things related to cron job which periodically refreshes the db.
-- `./tests/unit`: Unit tests for the project.
-- `./tests/integration`: Integration test for the project
-- `./swagger.json`: Swagger object for documenting the application
-- `./.github/`: PR templates and Github Action definitions.
-- `.gitignore`: File and folder globs to be ignored by git.
-- `package.json`: The node package definition, with packages links and scripts.
-- `yarn.lock`: Auto generated lock file from yarn.
-- `./tests/jest.*.js`: Global jest config for testing.
-- `.prettier`: Config containing prettier files.
-- `.tsconfig.*`: Global typescript configuration.
+-   `./db/`: Contains everything related to database, queries, seeders, models, csv's etc.
+-   `./src/cron`: Contains things related to cron job which periodically refreshes the db.
+-   `./tests/unit`: Unit tests for the project.
+-   `./tests/integration`: Integration test for the project
+-   `./swagger.json`: Swagger object for documenting the application
+-   `./.github/`: PR templates and Github Action definitions.
+-   `.gitignore`: File and folder globs to be ignored by git.
+-   `package.json`: The node package definition, with packages links and scripts.
+-   `yarn.lock`: Auto generated lock file from yarn.
+-   `./tests/jest.*.js`: Global jest config for testing.
+-   `.prettier`: Config containing prettier files.
+-   `.tsconfig.*`: Global typescript configuration.
 
 ### Application Architecture:
 
@@ -52,22 +52,18 @@ easier to use and data was easier to fetch. All the data which are provided is f
 required a paid subscription to get historical and statistical data.
 
 #### Refresh Mechanism
-There were 2 approaches that i considered while i was writing this code. First one would be checking the `updatedAt`
-field for each entry in the db then fetching the old entries. Second would be created an event queue mechanism,register
-the tracking ids to the event queue every 5 minutes. This approach would save a lot of db consumption and will be safer
-to execute. It would prevent also unnecessary calls to the db and weather app. But for the sake of this challenge I went
-for the easy approach.
 
-A Cron job Runs every 5 minutes, checks the results which did not updated lately. If its a date in the future, it re-fetches the forecast. If it's in the past it skips. 
+There were many approaches that i considered while i was writing this code. But for the sake of this challenge I went
+for the easy approach. A Cron job Runs every 5 minutes, checks the results which did not updated lately. If its a date
+in the future, it re-fetches the forecast. If it's in the past it skips.
 
 #### Testing
 
 I used a simple Behaviour driven test approach . I wrote the tests depending on the reviewers behaviour first and then i
-implemented the code inside. Due to the time limitation, I could not add extra flavors to the tests but rather keep the covarage as high as possible.
+implemented the code inside. Due to the time limitation, I could not add extra flavors to the tests but rather keep the
+covarage as high as possible.
 
 ### Future Improvements:
 
-Here in this application I did not take care of timezone, caller can be simply from a different time zone or requested location can be. But for the sake of the challenge i simply assumed that there is only one timezone.
-
-
-
+Here in this application I did not take care of timezone, caller can be simply from a different time zone or requested
+location can be. But for the sake of the challenge i simply assumed that there is only one timezone.

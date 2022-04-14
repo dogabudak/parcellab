@@ -6,8 +6,8 @@
   "scripts": {
     "start": "./node_modules/.bin/ts-node server.ts",
     "seed": "ts-node db/seed.ts",
-    "test:unit": "",
-    "test:integration": "jest --config tests/jest.integration.js --forceExit --runInBand",
+    "test:unit": "jest --config jest.config.js --coverage --forceExit --runInBand",
+    "test:integration": "jest --config jest.integration.js --coverage --forceExit --runInBand",
     "prettier": "prettier -c .",
     "prettier:fix": "yarn prettier --write"
   },

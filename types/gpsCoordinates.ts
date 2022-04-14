@@ -4,13 +4,13 @@ export interface GpsCoordinate {
         longitude: string
         latitude: string
     }
-    precipitation?: string
-    weather?: {
-        timestamp: string
-        precipitation: string
-        temperature: number
-        humidity: number
-    }[]
+    weather?: Weather[]
     humidity?: string
     updatedAt?: Date
+}
+export interface Weather {
+    timestamp: string
+    precipitation: string
+    temperature: number
+    humidity: number
 }

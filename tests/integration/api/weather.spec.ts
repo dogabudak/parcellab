@@ -4,15 +4,21 @@ import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 
 import { gpsFactoryWorker } from '../../factory/coordinates'
+import { GpsCoordinatesModel } from '../../../db/models/gpsCoordinatesModel'
+import { TrackingsModel } from '../../../db/models/trackingModel'
 
 describe('GET / a simple weather end point', () => {
     beforeAll(() => {
         const mock = new MockAdapter(axios)
         const url = new RegExp(`${process.env.WEATHERAPI}/*`)
-        const mockedGpsCoordinate = gpsFactoryWorker({})
-        mock.onGet(url).reply(200, { weather: [mockedGpsCoordinate] })
-    })
+        const mockedWeatherDetails = gpsFactoryWorker({})
 
+        mock.onGet(url).reply(200, { weather: [mockedWeatherDetails] })
+    })
+    afterAll(async () => {
+        await GpsCoordinatesModel.deleteMany()
+        await TrackingsModel.deleteMany()
+    })
     it('Get weather details on a specific location on a past date from weather api', async () => {
         const result = await request(app)
             .get('/weather')

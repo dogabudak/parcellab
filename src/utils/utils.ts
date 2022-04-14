@@ -14,6 +14,7 @@ export const extractWeatherRecordFromDateTime = (data) => {
         weatherDetails: { weather },
         pickup_date,
     } = data
+
     return weather.find(
         (eachWeatherSlot) => eachWeatherSlot.timestamp === pickup_date
     )
