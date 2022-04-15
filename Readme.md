@@ -15,6 +15,8 @@ This application is using Dockerized Backend with Dockerized mongodb. To start t
 simply run the command `docker-compose up -d`. This will create 2 containers, one for the application and the other for
 mongodb respectively.
 
+To see the detailed usage and the documentation of the app please kindly use `/api-docs` end point. Api docs are written with swagger documentation. 
+
 ## Work place structure
 
 This application follows a monorepo approach. The following sections explains the folder structure:

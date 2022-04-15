@@ -21,14 +21,14 @@
                         "type": "string"
                     },
                     {
-                        "name": "lon",
+                        "name": "longitude",
                         "in": "query",
                         "required": true,
                         "type": "string",
                         "description": "Example longitude: 11.55"
                     },
                     {
-                        "name": "lat",
+                        "name": "latitude",
                         "in": "query",
                         "type": "string",
                         "required": true,

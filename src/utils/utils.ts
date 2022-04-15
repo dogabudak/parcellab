@@ -1,5 +1,5 @@
-export const convertWeatherForecastToModel = (data) => {
-    const record = data.weather[0]
+export const convertWeatherForecastToModel = (forecast) => {
+    const record = forecast.weather[0]
     const { temperature, timestamp, relative_humidity, precipitation } = record
     return {
         timestamp,
@@ -9,11 +9,11 @@ export const convertWeatherForecastToModel = (data) => {
     }
 }
 
-export const extractWeatherRecordFromDateTime = (data) => {
+export const extractWeatherRecordFromDateTime = (weatherDetails) => {
     const {
         weatherDetails: { weather },
         pickup_date,
-    } = data
+    } = weatherDetails
 
     return weather.find(
         (eachWeatherSlot) => eachWeatherSlot.timestamp === pickup_date

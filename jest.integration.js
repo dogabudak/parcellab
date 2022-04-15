@@ -15,10 +15,10 @@ module.exports = {
     collectCoverageFrom: [
         '**/**/*.ts',
         '!**/node_modules/**',
+        '!**/tests/**',
         '!**/coverage/**',
         '!dist/**',
         '!jest.config.js',
-        '!**/test/**',
         '!test/**',
         '!**/db/**',
     ],

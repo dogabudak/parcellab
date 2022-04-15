@@ -29,6 +29,11 @@ describe('GET / - get location details from tracking number', () => {
                 location_id: 'some-location-id',
                 pickup_date: fakedTimestamp,
             }),
+            trackingFactoryWorker({
+                tracking_number: 'some-other-id',
+                location_id: 'some-other-location-id',
+                pickup_date: fakedTimestamp,
+            }),
         ])
 
         await GpsCoordinatesModel.insertMany([
@@ -39,13 +44,20 @@ describe('GET / - get location details from tracking number', () => {
                     precipitation: 0,
                 },
             }),
+            gpsFactoryWorker({
+                location_id: 'some-other-location-id',
+            }),
         ])
     })
     describe('GET / - Api call is successful', () => {
-        it('Simple get details on tracking with weather details ', async () => {
+        it.skip('Get simple details about tracking number from forecast', async () => {
             const result = await request(app).get('/track/some-id')
             expect(result.statusCode).toEqual(200)
             expect(result.body.precipitation).toEqual(0)
+        })
+        it.only('Get simple details about tracking number from database', async () => {
+            const result = await request(app).get('/track/some-other-id')
+            expect(result.statusCode).toEqual(200)
         })
     })
     describe('GET / - Api call is not successful', () => {

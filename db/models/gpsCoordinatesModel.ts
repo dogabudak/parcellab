@@ -16,7 +16,7 @@ const weatherSubSchema = new Schema<Weather>(
  */
 export const gpsCoordinatesSchema = new Schema<GpsCoordinate>(
     {
-        location_id: { type: String, unique: true },
+        location_id: { type: String, unique: true, index: true },
         location: {
             longitude: { type: String, index: true },
             latitude: { type: String, index: true },

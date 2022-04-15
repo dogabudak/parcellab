@@ -84,4 +84,12 @@ app.get('/weather', async (req, res) => {
 app.get('/health', (req, res) => {
     res.status(200).send('Ok')
 })
+
+app.listen(app.get('port'), () => {
+    console.log(
+        'App is running on http://localhost:%d in %s mode',
+        app.get('port'),
+        app.get('env')
+    )
+})
 export default app

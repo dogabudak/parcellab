@@ -61,7 +61,7 @@ export const insertNewCoordinate = async ({
         selector,
         { $push: { weather: forecast } },
         {
-            upsert: true,
+            //upsert: true,
             rawResult: true,
         }
     )

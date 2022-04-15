@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "./node_modules/.bin/ts-node server.ts",
+    "start": "./node_modules/.bin/ts-node app.ts",
     "seed": "ts-node db/seed.ts",
     "test:unit": "jest --config jest.config.js --coverage --forceExit --runInBand",
     "test:integration": "jest --config jest.integration.js --coverage --forceExit --runInBand",

@@ -18,7 +18,7 @@ module.exports = {
         '!**/coverage/**',
         '!dist/**',
         '!jest.config.js',
-        '!**/test/**',
+        '!**/tests/**',
         '!test/**',
         '!**/db/**',
     ],
