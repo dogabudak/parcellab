@@ -6,6 +6,11 @@ import 'dotenv/config'
 import { GpsCoordinatesModel } from './models/gpsCoordinatesModel'
 import { TrackingsModel } from './models/trackingModel'
 import { connectWithRetry } from './connect'
+import {
+    createNewCoordinates,
+    dropCoordinatesDatabase,
+} from './queries/coordinates'
+import { createNewTrackings, dropTrackingsDatabase } from './queries/tracking'
 
 const gpsCsvLocation = `${process.cwd()}/db/csv/gps.csv`
 const trackingsCsvLocation = `${process.cwd()}/db/csv/trackings.csv`
@@ -13,9 +18,8 @@ const trackingsCsvLocation = `${process.cwd()}/db/csv/trackings.csv`
 ;(async () => {
     try {
         await connectWithRetry()
-
-        await GpsCoordinatesModel.deleteMany()
-        await TrackingsModel.deleteMany()
+        await dropCoordinatesDatabase()
+        await dropTrackingsDatabase()
 
         const gpsCoordinates = (
             await csvtojson({
@@ -47,8 +51,8 @@ const trackingsCsvLocation = `${process.cwd()}/db/csv/trackings.csv`
                 pickup_date: moment(pickup_date, 'YYYYMMDDHHmm.ss').format(),
             }
         })
-        await GpsCoordinatesModel.insertMany(gpsCoordinates)
-        await TrackingsModel.insertMany(trackings)
+        await createNewCoordinates(gpsCoordinates)
+        await createNewTrackings(trackings)
         process.exit(0)
     } catch (e) {
         console.error(e)

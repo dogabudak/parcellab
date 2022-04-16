@@ -1,21 +1,10 @@
-import {
-    convertWeatherForecastToModel,
-    extractWeatherRecordFromDateTime,
-} from '../../../src/utils/utils'
+import { convertWeatherForecastToModel } from '../../../src/utils/utils'
 
 describe('Utilities ', () => {
-    describe('extractWeatherRecordFromDateTime ', () => {
-        it('Extracts weather record from date and time succsessfuly ', () => {
-            const weatherRecord = extractWeatherRecordFromDateTime({
-                weatherDetails: { weather: [{ timestamp: 'pickup_date' }] },
-                pickup_date: 'pickup_date',
-            })
-            expect(weatherRecord.timestamp).toBe('pickup_date')
-        })
-    }),
-        describe('convertWeatherForecastToModel ', () => {
-            it('converts Weather Forecast To model succsessfuly', () => {
-                const dataModel = convertWeatherForecastToModel({
+    describe('convertWeatherForecastToModel ', () => {
+        it('converts Weather Forecast To model succsessfuly', () => {
+            const dataModel = convertWeatherForecastToModel(
+                {
                     weather: [
                         {
                             temperature: 10,
@@ -24,11 +13,13 @@ describe('Utilities ', () => {
                             precipitation: 0,
                         },
                     ],
-                })
-                expect(dataModel.precipitation).toBe(0)
-                expect(dataModel.humidity).toBe(1)
-                expect(dataModel.timestamp).toBe('timestamp')
-                expect(dataModel.temperature).toBe(10)
-            })
+                },
+                'timestamp'
+            )
+            expect(dataModel.precipitation).toBe(0)
+            expect(dataModel.humidity).toBe(1)
+            expect(dataModel.timestamp).toBe('timestamp')
+            expect(dataModel.temperature).toBe(10)
         })
+    })
 })

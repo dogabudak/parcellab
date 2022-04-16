@@ -10,5 +10,5 @@ export const getForecast = async ({ latitude, longitude, date }) => {
         },
     })
     const { data } = response
-    return convertWeatherForecastToModel(data)
+    return convertWeatherForecastToModel(data, date)
 }

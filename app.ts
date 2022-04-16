@@ -18,7 +18,7 @@ app.use(cors())
 app.options('*', cors())
 
 initialize()
-
+/* istanbul ignore next */
 app.set('port', process.env.SERVER_PORT || 7001)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
@@ -35,7 +35,6 @@ app.get('/track/:trackingNumber', async (req, res) => {
         }
         return res.status(StatusCodes.OK).send(weatherDetails)
     } catch (e) {
-        console.error(`Unable to process the request: ${e}`)
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
             error: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
         })
@@ -68,13 +67,12 @@ app.get('/weather', async (req, res) => {
         }
 
         const forecast = await getCoordinateWeatherDetails({
-            date: queriedDate,
+            date: queriedDate.toISOString(),
             longitude,
             latitude,
         })
         return res.status(StatusCodes.OK).send(forecast)
     } catch (e) {
-        console.error(`Unable to process the request: ${e}`)
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
             error: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
         })
@@ -85,11 +83,4 @@ app.get('/health', (req, res) => {
     res.status(200).send('Ok')
 })
 
-app.listen(app.get('port'), () => {
-    console.log(
-        'App is running on http://localhost:%d in %s mode',
-        app.get('port'),
-        app.get('env')
-    )
-})
 export default app

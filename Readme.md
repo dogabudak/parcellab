@@ -15,7 +15,7 @@ This application is using Dockerized Backend with Dockerized mongodb. To start t
 simply run the command `docker-compose up -d`. This will create 2 containers, one for the application and the other for
 mongodb respectively.
 
-To see the detailed usage and the documentation of the app please kindly use `/api-docs` end point. Api docs are written with swagger documentation. 
+To see the detailed usage and the documentation of the app please kindly use `/api-docs` end point. Api docs are written with swagger documentation.
 
 ## Work place structure
 
@@ -63,7 +63,8 @@ in the future, it re-fetches the forecast. If it's in the past it skips.
 
 I used a simple Behaviour driven test approach . I wrote the tests depending on the reviewers behaviour first and then i
 implemented the code inside. Due to the time limitation, I could not add extra flavors to the tests but rather keep the
-covarage as high as possible.
+coverage as high as possible. At the end of testing marathon I was able to achieve %100 percent test coverage. To run integration tests
+please run `yarn test:integration` and to run unit tests please run `yarn test:unit`.
 
 ### Future Improvements:
 

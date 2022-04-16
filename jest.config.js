@@ -19,6 +19,8 @@ module.exports = {
         '!dist/**',
         '!jest.config.js',
         '!**/tests/**',
+        '!server.ts',
+        '!app.ts',
         '!test/**',
         '!**/db/**',
     ],

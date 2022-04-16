@@ -1,4 +1,5 @@
 import { TrackingsModel } from '../models/trackingModel'
+import { Trackings } from '../../types/trackings'
 
 export const getWeatherFromTrackingNumber = async ({ trackingNumber }) => {
     const foundLocations = await TrackingsModel.aggregate([
@@ -21,4 +22,10 @@ export const getWeatherFromTrackingNumber = async ({ trackingNumber }) => {
     if (foundLocations.length === 1) {
         return foundLocations[0]
     }
+}
+export const dropTrackingsDatabase = async () => {
+    await TrackingsModel.deleteMany()
+}
+export const createNewTrackings = async (trackings: Trackings[]) => {
+    await TrackingsModel.insertMany(trackings)
 }

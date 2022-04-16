@@ -1,5 +1,6 @@
 import { GpsCoordinatesModel } from '../models/gpsCoordinatesModel'
-import { v4 as uuidv4 } from 'uuid'
+import { GpsCoordinate } from '../../types/gpsCoordinates'
+import moment from "moment";
 
 export const getCoordinateForecastFromDatabase = async ({
     latitude,
@@ -10,59 +11,75 @@ export const getCoordinateForecastFromDatabase = async ({
             'location.latitude': latitude,
             'location.longitude': longitude,
         },
-        { _id: -1 }
+        { _id: 0 }
     )
 }
 
 /**
- * This function replaces the current array with the new forecast array, since i don't need the old values for this challenge, I picked this approach.
- * In another challenge mongodb's $addToSet method to the weather array would be more effective
- * @param forecast
+ * Updates the element in the weather array
+ * @param weather
  * @param locationId
+ * @param date
  */
-export const updatePredictionToForecast = async ({
+export const insertPredictionToForecast = async ({
     weather,
-    locationId,
-    date,
+    longitude,
+    latitude,
 }) => {
+    weather.timestamp = moment(weather.timestamp).toISOString()
     return GpsCoordinatesModel.updateOne(
-        { location_id: locationId, 'weather.timestamp': date },
+        {
+            'location.latitude': latitude,
+            'location.longitude': longitude,
+        },
+        {
+            $addToSet: {
+                weather,
+            },
+        }
+    )
+}
+export const getPredictionFromDatabase = async ({
+    date,
+    latitude,
+    longitude,
+}) => {
+    const prediction = await GpsCoordinatesModel.findOne({
+        'location.latitude': latitude,
+        'location.longitude': longitude,
+        weather: {
+            $elemMatch: { timestamp: date },
+        },
+    })
+    return prediction?.weather?.find(
+        (eachWeather) => eachWeather.timestamp === date
+    )
+}
+export const updateCoordinateForecast = async ({
+    date,
+    latitude,
+    longitude,
+    forecast,
+}) => {
+    await GpsCoordinatesModel.updateOne(
+        {
+            'location.latitude': latitude,
+            'location.longitude': longitude,
+            'weather.timestamp': date,
+        },
         {
             $set: {
-                'participants.$': weather,
+                'weather.$.precipitation': forecast.precipitation,
+                'weather.$.temperature': forecast.temperature,
+                'weather.$.humidity': forecast.humidity,
             },
         }
     )
 }
 
-/**
- * Inserts a new entry to the db, if a different coordinate has been given
- * location id is created with an uuid rather than a simple number, to keep it simpler
- * following method can be also simplified with a better query but i did not want to spend much time on it therefore it is much simpler
- * but less efficient method
- */
-
-export const insertNewCoordinate = async ({
-    location_id = uuidv4(),
-    forecast,
-    latitude,
-    longitude,
-    date,
-}) => {
-    const selector = {
-        location_id,
-        location: {
-            longitude: Number(longitude).toFixed(2),
-            latitude: Number(latitude).toFixed(2),
-        },
-    }
-    forecast.timestamp = date
-    await GpsCoordinatesModel.findOneAndUpdate(
-        selector,
-        { $push: { weather: forecast } },
-        {
-            //upsert: true,
-            rawResult: true,
-        }
-    )
+export const createNewCoordinates = async (gpsCoordinates: GpsCoordinate[]) => {
+    await GpsCoordinatesModel.insertMany(gpsCoordinates)
+}
+export const dropCoordinatesDatabase = async () => {
+    await GpsCoordinatesModel.deleteMany()
 }

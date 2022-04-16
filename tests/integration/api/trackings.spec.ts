@@ -9,6 +9,7 @@ import { TrackingsModel } from '../../../db/models/trackingModel'
 import { gpsFactoryWorker } from '../../factory/coordinates'
 import { trackingFactoryWorker } from '../../factory/trackings'
 import { forecastFactoryWorker } from '../../factory/forecast'
+import * as sources from '../../../src'
 
 describe('GET / - get location details from tracking number', () => {
     /**
@@ -17,6 +18,9 @@ describe('GET / - get location details from tracking number', () => {
     afterAll(async () => {
         await GpsCoordinatesModel.deleteMany()
         await TrackingsModel.deleteMany()
+    })
+    afterEach(() => {
+        jest.clearAllMocks()
     })
     beforeAll(async () => {
         const mock = new MockAdapter(axios)
@@ -50,12 +54,12 @@ describe('GET / - get location details from tracking number', () => {
         ])
     })
     describe('GET / - Api call is successful', () => {
-        it.skip('Get simple details about tracking number from forecast', async () => {
+        it('Get simple details about tracking number from forecast', async () => {
             const result = await request(app).get('/track/some-id')
             expect(result.statusCode).toEqual(200)
             expect(result.body.precipitation).toEqual(0)
         })
-        it.only('Get simple details about tracking number from database', async () => {
+        it('Get simple details about tracking number from database', async () => {
             const result = await request(app).get('/track/some-other-id')
             expect(result.statusCode).toEqual(200)
         })
@@ -64,6 +68,14 @@ describe('GET / - get location details from tracking number', () => {
         it('Cant get details due to wrong  tracking id', async () => {
             const result = await request(app).get('/track/some-wrong-id')
             expect(result.statusCode).toEqual(404)
+        })
+    })
+    describe('GET / - Error has thrown in server and handled correctly', () => {
+        it('Cant get details due to wrong  tracking id', async () => {
+            const mock = jest.spyOn(sources, 'getLocationIdWeatherDetails')
+            mock.mockRejectedValue('Error')
+            const result = await request(app).get('/track/some-wrong-id')
+            expect(result.statusCode).toEqual(500)
         })
     })
 })
