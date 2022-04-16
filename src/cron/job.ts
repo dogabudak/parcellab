@@ -16,7 +16,7 @@ export const refetchOldEntries = async () => {
         } = entry
         for (const eachSavedWeather of weather) {
             const momentTimestamp = moment(eachSavedWeather.timestamp)
-            if (momentTimestamp.isBefore(moment())) {
+            if (momentTimestamp.isAfter(moment())) {
                 const forecast = await getForecast({
                     longitude,
                     latitude,

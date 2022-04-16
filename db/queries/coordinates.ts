@@ -19,7 +19,6 @@ export const getCoordinateForecastFromDatabase = async ({
  * Updates the element in the weather array
  * @param weather
  * @param locationId
- * @param date
  */
 export const insertPredictionToForecast = async ({
     weather,
