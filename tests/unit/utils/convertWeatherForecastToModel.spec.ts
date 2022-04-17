@@ -1,4 +1,4 @@
-import { convertWeatherForecastToModel } from '../../../src/utils/utils'
+import { convertWeatherForecastToModel } from '../../../src/utils/convertWeatherForecastToModel'
 
 describe('Utilities ', () => {
     describe('convertWeatherForecastToModel ', () => {

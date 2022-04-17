@@ -40,7 +40,7 @@
                         "description": "OK"
                     },
                     "400": {
-                        "description": "Bad request. Latitude,longitude and date should be valid"
+                        "description": "Bad request. Latitude, longitude and date should be valid"
                     },
                     "500": {
                         "description": "Internal Server Error. There was an unexpected error"

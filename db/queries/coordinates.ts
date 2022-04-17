@@ -1,6 +1,6 @@
 import { GpsCoordinatesModel } from '../models/gpsCoordinatesModel'
 import { GpsCoordinate } from '../../types/gpsCoordinates'
-import moment from "moment";
+import moment from 'moment'
 
 export const getCoordinateForecastFromDatabase = async ({
     latitude,
@@ -25,7 +25,7 @@ export const insertPredictionToForecast = async ({
     longitude,
     latitude,
 }) => {
-    weather.timestamp = moment(weather.timestamp).toISOString()
+    weather.timestamp = moment(weather.timestamp,'YYYY-MM-DDTHH:mm:ss[Z]').toISOString()
     return GpsCoordinatesModel.updateOne(
         {
             'location.latitude': latitude,
