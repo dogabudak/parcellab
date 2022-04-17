@@ -1,5 +1,7 @@
 # Parcel Lab Challenge
 
+https://parcellab.notion.site/parcelLab-Challenge-Backend-8aeaca33fd5a4e61af6efc2d86c5c107#e8caf250723f4f6abd1915f6ad5209d0
+
 ## Pipeline status:
 
 [![api](https://github.com/dogabudak/parcellab/actions/workflows/workflow.yaml/badge.svg)](https://github.com/dogabudak/parcellab/actions/workflows/workflow.yaml)
