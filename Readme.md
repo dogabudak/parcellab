@@ -4,7 +4,8 @@ https://parcellab.notion.site/parcelLab-Challenge-Backend-8aeaca33fd5a4e61af6efc
 
 ## Pipeline status:
 
-[![api](https://github.com/dogabudak/parcellab/actions/workflows/workflow.yaml/badge.svg)](https://github.com/dogabudak/parcellab/actions/workflows/workflow.yaml)
+[![api](https://github.com/dogabudak/parcellab/actions/workflows/api.yaml/badge.svg)](https://github.com/dogabudak/parcellab/actions/workflows/api.yaml)
+
 ## Prerequisites
 
 Please make sure that you have `docker` and `yarn` installed. You can simply check with running these
