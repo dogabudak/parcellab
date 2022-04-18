@@ -13,10 +13,6 @@ services:
             context: .
             dockerfile: ./Dockerfile
         restart: unless-stopped
-        environment:
-            - MONGODB=mongodb://host.docker.internal:27017/forecast
-            - SERVER_PORT=7001
-            - WEATHERAPI=https://api.brightsky.dev
         ports:
             - 7001:7001
         container_name: parcellab
