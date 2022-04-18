@@ -23,9 +23,6 @@ export const getWeatherFromTrackingNumber = async ({ trackingNumber }) => {
         return foundLocations[0]
     }
 }
-export const dropTrackingsDatabase = async () => {
-    await TrackingsModel.deleteMany()
-}
-export const createNewTrackings = async (trackings: Trackings[]) => {
-    await TrackingsModel.insertMany(trackings)
-}
+export const dropTrackingsDatabase = async () => TrackingsModel.deleteMany()
+
+export const createNewTrackings = async (trackings: Trackings[]) => TrackingsModel.insertMany(trackings)

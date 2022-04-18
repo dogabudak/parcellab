@@ -76,9 +76,6 @@ export const updateCoordinateForecast = async ({
     )
 }
 
-export const createNewCoordinates = async (gpsCoordinates: GpsCoordinate[]) => {
-    await GpsCoordinatesModel.insertMany(gpsCoordinates)
-}
-export const dropCoordinatesDatabase = async () => {
-    await GpsCoordinatesModel.deleteMany()
-}
+export const createNewCoordinates = async (gpsCoordinates: GpsCoordinate[]) => GpsCoordinatesModel.insertMany(gpsCoordinates)
+
+export const dropCoordinatesDatabase = async () => GpsCoordinatesModel.deleteMany()

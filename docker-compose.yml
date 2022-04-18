@@ -20,3 +20,5 @@ services:
         ports:
             - 7001:7001
         container_name: parcellab
+        depends_on:
+            - mongodb

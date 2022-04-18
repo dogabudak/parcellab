@@ -1,16 +1,13 @@
 import csvtojson from 'csvtojson'
 import moment from 'moment'
-
 import 'dotenv/config'
 
-import { GpsCoordinatesModel } from './models/gpsCoordinatesModel'
-import { TrackingsModel } from './models/trackingModel'
-import { connectWithRetry } from './connect'
+import { connectWithRetry } from '../connect'
 import {
     createNewCoordinates,
     dropCoordinatesDatabase,
-} from './queries/coordinates'
-import { createNewTrackings, dropTrackingsDatabase } from './queries/tracking'
+} from '../queries/coordinates'
+import { createNewTrackings, dropTrackingsDatabase } from '../queries/tracking'
 
 const gpsCsvLocation = `${process.cwd()}/db/csv/gps.csv`
 const trackingsCsvLocation = `${process.cwd()}/db/csv/trackings.csv`

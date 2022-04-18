@@ -17,6 +17,13 @@ To start the application with mongodb please
 simply run the command `docker-compose up -d`. This will create 2 containers, one for the application and the other for
 mongodb respectively.
 
+If you have somehow docker not installed or if you have a problem about setting up the service you can run it in 3 steps.
+
+1. Make sure that you have a mongodb up and running. 
+2. Copy `.env.example` at root folder to `.env`
+3. Run `yarn seed` to ensure that database is in initial state and populated from csv files
+4. Run `yarn start` to start the service
+
 ### App Documentation
 
 To see the detailed usage and the documentation of the app, please kindly use `/api-docs` end point. Api docs are written with swagger documentation.
@@ -65,10 +72,10 @@ in the future, it re-fetches the forecast. If it's in the past, it skips.
 
 #### Testing
 
-I used a simple behaviour driven test approach for the integration tests. I wrote the tests depending on the reviewer's behavior first and then i
+I used a simple behaviour driven test approach for the integration tests. I wrote the tests depending on the reviewer's behavior first and then I
 implemented the code inside. Due to the time limitation, I could not add extra flavors to the tests but rather keep the
-coverage as high as possible. At the end of testing marathon, I was able to achieve %100 percent test coverage. To run integration tests
-please run `yarn test:integration` and to run unit tests, please run `yarn test:unit`.
+coverage as high as possible. At the end of testing marathon, I was able to achieve %100 percent test coverage. Integration tests requires that you have local mongodb running. 
+To run integration tests please run `yarn test:integration`. To run unit tests, please run `yarn test:unit`.
 
 ### Future Improvements:
 
