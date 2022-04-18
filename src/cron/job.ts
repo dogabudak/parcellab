@@ -15,19 +15,23 @@ export const refetchOldEntries = async () => {
             weather,
         } = entry
         for (const eachSavedWeather of weather) {
-            const momentTimestamp = moment(eachSavedWeather.timestamp)
-            if (momentTimestamp.isAfter(moment())) {
-                const forecast = await getForecast({
-                    longitude,
-                    latitude,
-                    date: momentTimestamp.toISOString(),
-                })
-                await updateCoordinateForecast({
-                    longitude,
-                    latitude,
-                    forecast,
-                    date: momentTimestamp.toISOString(),
-                })
+            try {
+                const momentTimestamp = moment(eachSavedWeather.timestamp)
+                if (momentTimestamp.isAfter(moment())) {
+                    const forecast = await getForecast({
+                        longitude,
+                        latitude,
+                        date: momentTimestamp.toISOString(),
+                    })
+                    await updateCoordinateForecast({
+                        longitude,
+                        latitude,
+                        forecast,
+                        date: momentTimestamp.toISOString(),
+                    })
+                }
+            } catch (e) {
+                console.error(`Can not re fetch the given data ${e}`)
             }
         }
     })
