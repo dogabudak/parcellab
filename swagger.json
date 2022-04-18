@@ -21,14 +21,14 @@
                         "type": "string"
                     },
                     {
-                        "name": "longitude",
+                        "name": "lon",
                         "in": "query",
                         "required": true,
                         "type": "string",
                         "description": "Coordinate value followed up by 2 digits after decimal. Example longitude: 11.55"
                     },
                     {
-                        "name": "latitude",
+                        "name": "lat",
                         "in": "query",
                         "type": "string",
                         "required": true,
