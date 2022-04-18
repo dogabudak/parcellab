@@ -2,9 +2,6 @@
 
 https://parcellab.notion.site/parcelLab-Challenge-Backend-8aeaca33fd5a4e61af6efc2d86c5c107#e8caf250723f4f6abd1915f6ad5209d0
 
-## Pipeline status:
-
-[![api](https://github.com/dogabudak/parcellab/actions/workflows/api.yaml/badge.svg)](https://github.com/dogabudak/parcellab/actions/workflows/api.yaml)
 ## Prerequisites
 
 Please make sure that you have `docker` and `yarn` installed. You can simply check with running these
@@ -14,12 +11,12 @@ commands `docker --version` `yarn --version`
 
 This application is using Dockerized Backend with Dockerized mongodb. Before running the application, please make sure that the docker deamon is running.
 To start the application with mongodb please
-simply run the command `docker-compose up -d`. This will create 2 containers, one for the application and the other for
+simply run the command `yarn start:docker`. This will create 2 containers, one for the application and the other for
 mongodb respectively.
 
 If you have somehow docker not installed or if you have a problem about setting up the service you can run it in 3 steps.
 
-1. Make sure that you have a mongodb up and running. 
+1. Make sure that you have a mongodb up and running.
 2. Copy `.env.example` at root folder to `.env`
 3. Run `yarn seed` to ensure that database is in initial state and populated from csv files
 4. Run `yarn start` to start the service
@@ -74,8 +71,8 @@ in the future, it re-fetches the forecast. If it's in the past, it skips.
 
 I used a simple behaviour driven test approach for the integration tests. I wrote the tests depending on the reviewer's behavior first and then I
 implemented the code inside. Due to the time limitation, I could not add extra flavors to the tests but rather keep the
-coverage as high as possible. At the end of testing marathon, I was able to achieve %100 percent test coverage. Integration tests requires that you have local mongodb running. 
-To run integration tests please run `yarn test:integration`. To run unit tests, please run `yarn test:unit`.
+coverage as high as possible. At the end of testing marathon, I was able to achieve %100 percent test coverage. Integration tests requires that you have local mongodb running.
+To run integration tests please run `yarn test:integration`. To run unit tests, please run `yarn test:unit`. State of the Tests can be also seen from github work flows
 
 ### Future Improvements:
 

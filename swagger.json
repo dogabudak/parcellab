@@ -17,7 +17,7 @@
                         "name": "date",
                         "in": "query",
                         "required": true,
-                        "description": "Example: 2020-04-24T12:00",
+                        "description": "Date and time should have following format YYYY-MM-DDTHH:mm:ss[Z]. Example: 2020-04-24T12:00",
                         "type": "string"
                     },
                     {
@@ -25,14 +25,14 @@
                         "in": "query",
                         "required": true,
                         "type": "string",
-                        "description": "Example longitude: 11.55"
+                        "description": "Coordinate value followed up by 2 digits after decimal. Example longitude: 11.55"
                     },
                     {
                         "name": "latitude",
                         "in": "query",
                         "type": "string",
                         "required": true,
-                        "description": "Example latitude: 48.14"
+                        "description": "Coordinate value followed up by 2 digits after decimal. Example latitude: 48.14"
                     }
                 ],
                 "responses": {

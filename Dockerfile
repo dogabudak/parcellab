@@ -13,4 +13,3 @@ RUN yarn seed
 # Start
 CMD [ "yarn", "start" ]
 EXPOSE 7001
-EXPOSE 27017

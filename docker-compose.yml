@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3'
 
 services:
     mongodb:
@@ -8,13 +8,14 @@ services:
         volumes:
             - ~/apps/mongo:/data/db
     parcellab:
-        image: parcellab:1.0
         build:
             context: .
             dockerfile: ./Dockerfile
         restart: unless-stopped
+        environment:
+            - MONGODB=mongodb://host.docker.internal:27017/forecast
+            - SERVER_PORT=7001
+            - WEATHERAPI=https://api.brightsky.dev
         ports:
             - 7001:7001
         container_name: parcellab
-        depends_on:
-            - mongodb

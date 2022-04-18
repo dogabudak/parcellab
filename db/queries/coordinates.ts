@@ -25,7 +25,10 @@ export const insertPredictionToForecast = async ({
     longitude,
     latitude,
 }) => {
-    weather.timestamp = moment(weather.timestamp,'YYYY-MM-DDTHH:mm:ss[Z]').toISOString()
+    weather.timestamp = moment(
+        weather.timestamp,
+        'YYYY-MM-DDTHH:mm:ss[Z]'
+    ).toISOString()
     return GpsCoordinatesModel.updateOne(
         {
             'location.latitude': latitude,
@@ -76,6 +79,8 @@ export const updateCoordinateForecast = async ({
     )
 }
 
-export const createNewCoordinates = async (gpsCoordinates: GpsCoordinate[]) => GpsCoordinatesModel.insertMany(gpsCoordinates)
+export const createNewCoordinates = async (gpsCoordinates: GpsCoordinate[]) =>
+    GpsCoordinatesModel.insertMany(gpsCoordinates)
 
-export const dropCoordinatesDatabase = async () => GpsCoordinatesModel.deleteMany()
+export const dropCoordinatesDatabase = async () =>
+    GpsCoordinatesModel.deleteMany()
