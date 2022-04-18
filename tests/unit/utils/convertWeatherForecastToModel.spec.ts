@@ -21,5 +21,12 @@ describe('Utilities ', () => {
             expect(dataModel.timestamp).toBe('timestamp')
             expect(dataModel.temperature).toBe(10)
         })
+        it('Should return undefined silently', () => {
+            const dataModel = convertWeatherForecastToModel(
+                undefined,
+                'timestamp'
+            )
+            expect(dataModel).toBe(undefined)
+        })
     })
 })

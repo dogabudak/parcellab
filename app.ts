@@ -71,6 +71,10 @@ app.get('/weather', async (req, res) => {
             longitude,
             latitude,
         })
+        if(!forecast) res.status(StatusCodes.NOT_FOUND).send({
+            error: `${getReasonPhrase(StatusCodes.NOT_FOUND)}, Please change query parameters`,
+        })
+
         return res.status(StatusCodes.OK).send(forecast)
     } catch (e) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({

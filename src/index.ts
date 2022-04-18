@@ -59,7 +59,6 @@ export const getCoordinateWeatherDetails = async ({
             longitude,
         })
     }
-
     return weatherPrediction
 }
 

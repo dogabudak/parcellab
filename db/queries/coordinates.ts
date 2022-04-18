@@ -25,6 +25,7 @@ export const insertPredictionToForecast = async ({
     longitude,
     latitude,
 }) => {
+    if (!weather) return
     weather.timestamp = moment(
         weather.timestamp,
         'YYYY-MM-DDTHH:mm:ss[Z]'
@@ -71,9 +72,9 @@ export const updateCoordinateForecast = async ({
         },
         {
             $set: {
-                'weather.$.precipitation': forecast.precipitation,
-                'weather.$.temperature': forecast.temperature,
-                'weather.$.humidity': forecast.humidity,
+                'weather.$.precipitation': forecast?.precipitation,
+                'weather.$.temperature': forecast?.temperature,
+                'weather.$.humidity': forecast?.humidity,
             },
         }
     )
