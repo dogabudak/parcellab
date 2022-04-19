@@ -18,8 +18,9 @@ If you have somehow docker not installed or if you have a problem about setting 
 
 1. Make sure that you have a mongodb up and running.
 2. Copy `.env.example` at root folder to `.env`
-3. Run `yarn seed` to ensure that database is in initial state and populated from csv files
-4. Run `yarn start` to start the service
+3. Run `yarn install` to install the libraries
+4. Run `yarn seed` to ensure that database is in initial state and populated from csv files
+5. Run `yarn start` to start the service
 
 ### App Documentation
 
