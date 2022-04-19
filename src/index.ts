@@ -47,7 +47,6 @@ export const getCoordinateWeatherDetails = async ({
 
     // If weather details does not exist get details from API and update the database entity
     if (!weatherPrediction) {
-        // @ts-ignore
         weatherPrediction = await getForecast({
             latitude,
             longitude,
