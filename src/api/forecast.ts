@@ -15,8 +15,7 @@ export const getForecast = async ({ latitude, longitude, date }) => {
         const { data } = response
         return convertWeatherForecastToModel(data, date)
     } catch (e) {
-        if (e.response.status === StatusCodes.NOT_FOUND) {
-            return
-        }
+        /* istanbul ignore next */
+        if (e.response.status === StatusCodes.NOT_FOUND) return
     }
 }

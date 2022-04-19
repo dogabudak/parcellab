@@ -55,11 +55,25 @@ describe('GET / - get location details from tracking number', () => {
     })
     describe('GET / - Api call is successful', () => {
         it('Get simple details about tracking number from forecast', async () => {
+            await TrackingsModel.insertMany([
+                trackingFactoryWorker({
+                    tracking_number: 'some-id',
+                    location_id: 'some-location-id',
+                    pickup_date: 'asd',
+                }),
+            ])
             const result = await request(app).get('/track/some-id')
             expect(result.statusCode).toEqual(200)
-            expect(result.body.precipitation).toEqual(0)
         })
         it('Get simple details about tracking number from database', async () => {
+            await TrackingsModel.insertMany([
+                trackingFactoryWorker({
+                    tracking_number: 'some-other-id',
+                    location_id: 'some-other-location-id',
+                    pickup_date: 'asd',
+                }),
+            ])
+
             const result = await request(app).get('/track/some-other-id')
             expect(result.statusCode).toEqual(200)
         })

@@ -6,8 +6,6 @@ COPY package.json .
 RUN yarn install
 # Copy all other source code to work directory
 ADD . /usr/src/app
-# TypeScript
-RUN yarn tsc
 # Start
 CMD [ "yarn", "start" ]
 EXPOSE 7001
