@@ -8,8 +8,6 @@ RUN yarn install
 ADD . /usr/src/app
 # TypeScript
 RUN yarn tsc
-# Seed first
-RUN yarn seed
 # Start
 CMD [ "yarn", "start" ]
 EXPOSE 7001
