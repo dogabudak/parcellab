@@ -5,7 +5,6 @@
   "license": "MIT",
   "scripts": {
     "start": "./node_modules/.bin/ts-node server.ts",
-    "seed": "ts-node db/seed/seed.ts",
     "start:docker": "docker-compose up --build -d",
     "stop:docker": "docker-compose down",
     "test:unit": "jest --config jest.config.js --coverage --forceExit --runInBand",
