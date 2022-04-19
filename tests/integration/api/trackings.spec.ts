@@ -26,17 +26,16 @@ describe('GET / - get location details from tracking number', () => {
         const mock = new MockAdapter(axios)
         const url = new RegExp(`${process.env.WEATHERAPI}/*`)
         mock.onGet(url).reply(200, { weather: [forecastFactoryWorker({})] })
-        const fakedTimestamp = faker.date.recent()
         await TrackingsModel.insertMany([
             trackingFactoryWorker({
                 tracking_number: 'some-id',
                 location_id: 'some-location-id',
-                pickup_date: fakedTimestamp,
+                pickup_date: 'random_date',
             }),
             trackingFactoryWorker({
                 tracking_number: 'some-other-id',
                 location_id: 'some-other-location-id',
-                pickup_date: fakedTimestamp,
+                pickup_date: 'random_date',
             }),
         ])
 
@@ -44,7 +43,7 @@ describe('GET / - get location details from tracking number', () => {
             gpsFactoryWorker({
                 location_id: 'some-location-id',
                 weather: {
-                    timestamp: fakedTimestamp,
+                    timestamp: 'random_date',
                     precipitation: 0,
                 },
             }),
@@ -54,18 +53,18 @@ describe('GET / - get location details from tracking number', () => {
         ])
     })
     describe('GET / - Api call is successful', () => {
-        it('Get simple details about tracking number from forecast', async () => {
+        it('Get simple details about tracking number from database', async () => {
             await TrackingsModel.insertMany([
                 trackingFactoryWorker({
                     tracking_number: 'some-id',
                     location_id: 'some-location-id',
-                    pickup_date: 'asd',
+                    pickup_date: 'random_date',
                 }),
             ])
             const result = await request(app).get('/track/some-id')
             expect(result.statusCode).toEqual(200)
         })
-        it('Get simple details about tracking number from database', async () => {
+        it('Get simple details about tracking number from forecast', async () => {
             await TrackingsModel.insertMany([
                 trackingFactoryWorker({
                     tracking_number: 'some-other-id',
@@ -73,7 +72,6 @@ describe('GET / - get location details from tracking number', () => {
                     pickup_date: 'asd',
                 }),
             ])
-
             const result = await request(app).get('/track/some-other-id')
             expect(result.statusCode).toEqual(200)
         })
