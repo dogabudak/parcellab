@@ -12,7 +12,7 @@ import { createNewTrackings, dropTrackingsDatabase } from '../queries/tracking'
 const gpsCsvLocation = `${process.cwd()}/db/csv/gps.csv`
 const trackingsCsvLocation = `${process.cwd()}/db/csv/trackings.csv`
 
-;(async () => {
+export const seed = async () => {
     try {
         await connectWithRetry()
         await dropCoordinatesDatabase()
@@ -55,4 +55,4 @@ const trackingsCsvLocation = `${process.cwd()}/db/csv/trackings.csv`
         console.error(e)
         process.exit(1)
     }
-})()
+}
