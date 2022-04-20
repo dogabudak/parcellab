@@ -43,7 +43,7 @@ describe('GET / a simple weather end point', () => {
         ])
         const result = await request(app)
             .get('/weather')
-            .query({ date: '2020-12-12T04:56', lat: '51.58', lon: '7.38' })
+            .query({ date: '2020-12-12T04:56:00.000Z', lat: '51.58', lon: '7.38' })
         expect(result.statusCode).toEqual(200)
         expect(result.body).toEqual({
             precipitation: 0,
