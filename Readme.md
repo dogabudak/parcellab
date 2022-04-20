@@ -12,7 +12,7 @@ commands `docker --version` `yarn --version`
 This application is using Dockerized Backend with Dockerized mongodb. Before running the application, please make sure that the docker deamon is running.
 To start the application with mongodb please
 simply run the command `yarn start:docker`. This will create 2 containers, one for the application and the other for
-mongodb respectively.
+mongodb respectively. The API will run on `7001` by default.
 
 If you have somehow docker not installed or if you have a problem about setting up the service you can run it in 3 steps.
 
