@@ -2,7 +2,6 @@ import csvtojson from 'csvtojson'
 import moment from 'moment'
 import 'dotenv/config'
 
-import { connectWithRetry } from '../connect'
 import {
     createNewCoordinates,
     dropCoordinatesDatabase,
@@ -12,9 +11,12 @@ import { createNewTrackings, dropTrackingsDatabase } from '../queries/tracking'
 const gpsCsvLocation = `${process.cwd()}/db/csv/gps.csv`
 const trackingsCsvLocation = `${process.cwd()}/db/csv/trackings.csv`
 
+/**
+ * For the sake of the challenge, this function refreshes the database to its initial state to get ready for the challenge.
+ *
+ */
 export const seed = async () => {
     try {
-        await connectWithRetry()
         await dropCoordinatesDatabase()
         await dropTrackingsDatabase()
 

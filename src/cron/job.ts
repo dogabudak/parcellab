@@ -7,6 +7,12 @@ import { getForecast } from '../api/forecast'
 
 const everyFiveMinutesCron = '*/5 * * * *'
 
+/**
+ * fethces the coordinates from db checks each weather which are stored in weather array
+ * if its a future date it refetches the weather to keep the weather conditions updated, if its a past date skips it
+ * This is as well an ineffcient method and it has been explained in Readme
+ * To write the challenge fast I made it in this way
+ */
 export const refetchOldEntries = async () => {
     const entries = await GpsCoordinatesModel.find({}).batchSize(10).cursor()
     await entries.eachAsync(async (entry) => {

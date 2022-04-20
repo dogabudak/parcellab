@@ -2,6 +2,11 @@ import { GpsCoordinatesModel } from '../models/gpsCoordinatesModel'
 import { GpsCoordinate } from '../../types/gpsCoordinates'
 import moment from 'moment'
 
+/**
+ * Returns the first instance of latitude and longitude, they should be unique
+ * @param latitude
+ * @param longitude
+ */
 export const getCoordinateForecastFromDatabase = async ({
     latitude,
     longitude,
@@ -16,7 +21,7 @@ export const getCoordinateForecastFromDatabase = async ({
 }
 
 /**
- * Updates the element in the weather array
+ * Inserts the element in the weather array
  * @param weather
  * @param locationId
  */
@@ -42,6 +47,14 @@ export const insertPredictionToForecast = async ({
         }
     )
 }
+
+/**
+ * Returns the weather on the given time and date
+ * @param date
+ * @param latitude
+ * @param longitude
+ */
+
 export const getPredictionFromDatabase = async ({
     date,
     latitude,
