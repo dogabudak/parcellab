@@ -44,10 +44,8 @@ describe('GET / a simple weather end point', () => {
             .query({ date: '2020-12-12T04:56', lat: '51.58', lon: '7.38' })
         expect(result.statusCode).toEqual(200)
         expect(result.body).toEqual({
-            precipitation: 11,
-            humidity: 10,
-            temperature: 12,
-            timestamp: '2020-12-12T02:56:00.000Z',
+            precipitation: 0,
+            timestamp: '2020-12-12T03:56:00.000Z',
         })
     })
     it('Get weather details on a specific location from weather api', async () => {
