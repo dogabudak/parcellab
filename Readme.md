@@ -77,5 +77,5 @@ To run integration tests please run `yarn test:integration`. To run unit tests, 
 
 ### Future Improvements:
 
-Here in this application I did not take care of timezone, caller can be simply from a different time zone or requested
-location can be. But for the sake of the challenge I simply assumed that there is only one timezone.
+Here in this application I did not take care of timezone, caller or requested
+location can be simply from a different time zone. But for the sake of the challenge I simply assumed that there is only one timezone. And did not keep the timestamp as a date format to avoid further complications.
