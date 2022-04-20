@@ -16,7 +16,6 @@ const app = express()
 
 app.use(cors())
 app.options('*', cors())
-
 initialize()
 /* istanbul ignore next */
 app.set('port', process.env.SERVER_PORT || 7001)
@@ -29,9 +28,11 @@ app.get('/track/:trackingNumber', async (req, res) => {
             trackingNumber,
         })
         if (!weatherDetails) {
-            return res
-                .status(StatusCodes.NOT_FOUND)
-                .send('Requested Id does not exist')
+            return res.status(StatusCodes.NOT_FOUND).send({
+                error: `${getReasonPhrase(
+                    StatusCodes.BAD_REQUEST
+                )}, Requested Id does not exist`,
+            })
         }
         return res.status(StatusCodes.OK).send(weatherDetails)
     } catch (e) {
@@ -52,18 +53,20 @@ app.get('/weather', async (req, res) => {
             latitude === 'NaN' ||
             longitude === 'NaN'
         ) {
-            return res
-                .status(StatusCodes.BAD_REQUEST)
-                .send(
-                    'Unable to process the request, You must provide a valid latitude and longitude'
-                )
+            return res.status(StatusCodes.BAD_REQUEST).send({
+                error: `${getReasonPhrase(
+                    StatusCodes.BAD_REQUEST
+                )}, 'Unable to process the request, This is not a valid date'`,
+            })
         }
         const queriedDate = moment(date, 'YYYY-MM-DD HH:mm')
 
         if (!date || !queriedDate.isValid()) {
-            return res
-                .status(StatusCodes.BAD_REQUEST)
-                .send('Unable to process the request, This is not a valid date')
+            return res.status(StatusCodes.BAD_REQUEST).send({
+                error: `${getReasonPhrase(
+                    StatusCodes.BAD_REQUEST
+                )}, 'Unable to process the request, This is not a valid date'`,
+            })
         }
 
         const forecast = await getCoordinateWeatherDetails({
