@@ -18,8 +18,16 @@ describe('GET / a simple weather end point', () => {
             precipitation: 11,
             temperature: 12,
         })
-
         mock.onGet(url).reply(200, { weather: [mockedWeatherDetails] })
+    })
+    afterAll(async () => {
+        await GpsCoordinatesModel.deleteMany()
+        await TrackingsModel.deleteMany()
+    })
+    afterEach(() => {
+        jest.clearAllMocks()
+    })
+    it('Get weather details on a specific location on a date from database', async () => {
         await GpsCoordinatesModel.insertMany([
             gpsFactoryWorker({
                 location_id: 'some-location-id',
@@ -33,12 +41,6 @@ describe('GET / a simple weather end point', () => {
                 },
             }),
         ])
-    })
-    afterAll(async () => {
-        await GpsCoordinatesModel.deleteMany()
-        await TrackingsModel.deleteMany()
-    })
-    it('Get weather details on a specific location on a date from database', async () => {
         const result = await request(app)
             .get('/weather')
             .query({ date: '2020-12-12T04:56', lat: '51.58', lon: '7.38' })
@@ -72,6 +74,14 @@ describe('GET / a simple weather end point', () => {
             .query({ date: 'wrong date', lat: '51.58', lon: '7.38' })
         expect(result.statusCode).toEqual(400)
     })
+    it('Should return 404 due to weather api', async () => {
+        const mock = jest.spyOn(sources, 'getCoordinateWeatherDetails')
+        mock.mockResolvedValueOnce(null)
+        const result = await request(app)
+            .get('/weather')
+            .query({ date: '2020-12-13T00:00', lat: '51.58', lon: '7.38' })
+        expect(result.statusCode).toEqual(404)
+    })
     it('Should return 400 due to invalid parameters', async () => {
         const result = await request(app).get('/weather').query({
             date: '2020-12-12T04:56',
@@ -83,7 +93,7 @@ describe('GET / a simple weather end point', () => {
     describe('Should throw 500 due a http error', () => {
         it('Cant get details due to wrong  tracking id', async () => {
             const mock = jest.spyOn(sources, 'getCoordinateWeatherDetails')
-            mock.mockRejectedValue('Error')
+            mock.mockRejectedValueOnce('Error')
             const result = await request(app).get('/weather').query({
                 date: '2020-12-12T04:56',
                 lat: '51.58',

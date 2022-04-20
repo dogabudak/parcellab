@@ -72,7 +72,7 @@ app.get('/weather', async (req, res) => {
             latitude,
         })
         if (!forecast)
-            res.status(StatusCodes.NOT_FOUND).send({
+            return res.status(StatusCodes.NOT_FOUND).send({
                 error: `${getReasonPhrase(
                     StatusCodes.NOT_FOUND
                 )}, Please change query parameters`,

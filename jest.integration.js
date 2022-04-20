@@ -18,6 +18,7 @@ module.exports = {
         '!**/tests/**',
         '!**/coverage/**',
         '!**/cron/**',
+        '!**/utils/**',
         '!dist/**',
         '!jest.config.js',
         '!server.ts',
