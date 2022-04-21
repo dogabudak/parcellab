@@ -68,6 +68,12 @@ There were many approaches that I considered while I was writing this code. But 
 for the easy approach. A Cron job runs every 5 minutes, checks the results, which did not update lately. If it's a date
 in the future, it re-fetches the forecast. If it's in the past, it skips.
 
+#### Seeder Mechanism
+
+The application uses a seeder mechanism on initial start. It converts the csv file to json via `https://github.com/Keyang/node-csvtojson` library
+(which is mainly maintained by me lately) then writes these objects to db. Coordinates are fixed to 2 points after decimal to make search easier and they are string rather than
+geospatial data to keep this challenge easy again.
+
 #### Testing
 
 I used a simple behaviour driven test approach for the integration tests. I wrote the tests depending on the reviewer's behavior first and then I
